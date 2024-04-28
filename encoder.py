@@ -6,7 +6,7 @@ from encoder_block import EncoderBlock
 
 class Encoder(nn.Module):
     def __init__(self, vocab_size, query_size, key_size, value_size, norm_shape, 
-                dropout, num_heads, num_hiddens, ffn_num_inputs, ffn_num_outputs, 
+                dropout, num_heads, num_hiddens, ffn_num_inputs, ffn_num_hiddens, 
                 num_layers, use_bias=False, **kwargs):
         super(Encoder, self).__init__(**kwargs)
 
@@ -18,7 +18,7 @@ class Encoder(nn.Module):
         for i in range(num_layers):
             self.blks.add_module(f"block{i}", 
             EncoderBlock(query_size, key_size, value_size, num_hiddens, 
-                         num_heads, dropout, norm_shape, ffn_num_inputs, ffn_num_outputs, use_bias))
+                         num_heads, dropout, norm_shape, ffn_num_inputs, ffn_num_hiddens, use_bias))
     
     def forward(self, X, valid_lens, *args):
         X = self.position_encoding(self.embedding(X)*math.sqrt(self.num_hiddens))
