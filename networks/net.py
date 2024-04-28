@@ -10,8 +10,8 @@ class EncoderDecoder(nn.Module):
         self.encoder = encoder
         self.decoder = decoder
 
-    def forward(self, enc_X, dec_X):
-        enc_outputs = self.encoder(enc_X)
+    def forward(self, enc_X, dec_X, enc_valid_lens):
+        enc_outputs = self.encoder(enc_X, enc_valid_lens)
         dec_state = self.decoder.init_state(enc_outputs)
         return self.decoder(dec_X, dec_state)
     
